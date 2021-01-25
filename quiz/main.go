@@ -23,14 +23,30 @@ func main() {
 	}
 
 	r := csv.NewReader(csvFile)
-
 	rows, err := r.ReadAll()
-
 	if err != nil {
 		log.Fatalln("Error parsing csv file", err)
 	}
+
+	problems := make([]problem, len(rows))
 	for i, row := range rows {
-		fmt.Println("Problem", i+1, row[0], "=")
+		problems[i] = problem{
+			q: row[0],
+			a: row[1],
+		}
 	}
+
+	correct := 0
+	for i, problem := range problems {
+		fmt.Print("Problem ", i+1, ": ", problem.q, " = ")
+
+		var answer string
+		fmt.Scan(&answer)
+		if answer == problem.a {
+			correct++
+		}
+	}
+
+	fmt.Println("You answered", correct, "out of", len(rows), "questions correctly.")
 
 }
