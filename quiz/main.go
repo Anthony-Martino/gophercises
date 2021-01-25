@@ -30,22 +30,22 @@ func main() {
 		log.Fatalln("Error parsing csv file", err)
 	}
 
-	problems := parseProblems(rows)
+	problems := parseRows(rows)
 	correct := 0
 	timer := time.NewTimer(time.Duration(*timeLimit) * time.Second)
-
 tag:
 	for i, problem := range problems {
 		fmt.Print("Problem ", i+1, ": ", problem.q, " = ")
-
 		answerChannel := make(chan string)
 		go func() {
 			var answer string
 			fmt.Scan(&answer)
 			answerChannel <- answer
 		}()
+
 		select {
 		case <-timer.C:
+			fmt.Println()
 			break tag
 		case answer := <-answerChannel:
 			if answer == problem.a {
@@ -53,10 +53,10 @@ tag:
 			}
 		}
 	}
-	fmt.Println("You answered", correct, "out of", len(rows), "questions correctly.")
+	fmt.Println("You answered", correct, "out of", len(problems), "questions correctly.")
 }
 
-func parseProblems(rows [][]string) []problem {
+func parseRows(rows [][]string) []problem {
 	problems := make([]problem, len(rows))
 	for i, row := range rows {
 		problems[i] = problem{
