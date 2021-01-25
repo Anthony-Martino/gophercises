@@ -28,18 +28,11 @@ func main() {
 		log.Fatalln("Error parsing csv file", err)
 	}
 
-	problems := make([]problem, len(rows))
-	for i, row := range rows {
-		problems[i] = problem{
-			q: row[0],
-			a: row[1],
-		}
-	}
-
+	problems := parseProblems(rows)
 	correct := 0
+	
 	for i, problem := range problems {
 		fmt.Print("Problem ", i+1, ": ", problem.q, " = ")
-
 		var answer string
 		fmt.Scan(&answer)
 		if answer == problem.a {
@@ -49,4 +42,16 @@ func main() {
 
 	fmt.Println("You answered", correct, "out of", len(rows), "questions correctly.")
 
+}
+
+func parseProblems(rows [][]string) []problem {
+	problems := make([]problem, len(rows))
+	for i, row := range rows {
+		problems[i] = problem{
+			q: row[0],
+			a: row[1],
+		}
+	}
+
+	return problems
 }
