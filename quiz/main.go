@@ -30,7 +30,7 @@ func main() {
 
 	problems := parseProblems(rows)
 	correct := 0
-	
+
 	for i, problem := range problems {
 		fmt.Print("Problem ", i+1, ": ", problem.q, " = ")
 		var answer string
@@ -41,7 +41,6 @@ func main() {
 	}
 
 	fmt.Println("You answered", correct, "out of", len(rows), "questions correctly.")
-
 }
 
 func parseProblems(rows [][]string) []problem {
@@ -52,6 +51,5 @@ func parseProblems(rows [][]string) []problem {
 			a: row[1],
 		}
 	}
-
 	return problems
 }
