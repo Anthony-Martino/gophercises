@@ -37,12 +37,17 @@ func main() {
 tag:
 	for i, problem := range problems {
 		fmt.Print("Problem ", i+1, ": ", problem.q, " = ")
+
+		answerChannel := make(chan string)
+		go func() {
+			var answer string
+			fmt.Scan(&answer)
+			answerChannel <- answer
+		}()
 		select {
 		case <-timer.C:
 			break tag
-		default:
-			var answer string
-			fmt.Scan(&answer)
+		case answer := <-answerChannel:
 			if answer == problem.a {
 				correct++
 			}
